@@ -1,3 +1,17 @@
 .env
 .vscode
 *.log
+.idea/
+*.tar.gz
+*ipynb
+*.zip
+*.pkl
+*.pyc
+.venv
+__pycache__
+**/build/**
+*.fdb_latexmk
+*.fls
+*.aux
+*.pdf
+*.synctex.gz

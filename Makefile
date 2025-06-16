@@ -1,6 +1,8 @@
 
-all:
+all: run
 
+
+run:
 
 get_venv:
 	python3 -m venv .venv
@@ -9,3 +11,8 @@ get_venv:
 get_requirements:
 	. .venv/bin/activate && pip freeze > requirements.txt
 
+check:
+
+test:
+
+clear:

@@ -1,25 +1,19 @@
-import os
-from pathlib import Path, PureWindowsPath
+from .composer import *
 
+def main(root: str):
+  print('Data creating: ', end='')
 
-from composition import *
+  composer = Composer(root)
+  composer.create_base_data('data', 'build/latex', 'build/raw_img', 'build/checklist.tex')
 
+  composer.add_to_middleware('rotate30', rotate30)
+  # composer.add_to_middleware('rotate90', rotate90)
+  # composer.add_to_middleware('rotate180', rotate180)
+  # composer.add_to_middleware('rotate270', rotate270)
+  composer.add_to_middleware('resize4x', resize4x)
+  composer.add_to_middleware('resize8x', resize8x)
+  composer.add_to_middleware('blur', blur)
+  composer.add_to_middleware('whiteText', whiteText)
 
-def mk_dir(path: str, *paths: list[str]) -> str:
-  path_ = os.path.join(path, *paths)
-  if not os.path.exists(path_):
-    os.mkdir(path_)
-
-  return path_
-
-def main(data_root: str):
-  build_path = mk_dir(data_root, '..', 'build')
-  composition = compose_data(data_root)
-  check_uniq(composition)
-  render_png(build_path, composition)
-
-  doc_path = os.path.join(data_root, '..', 'checklist.tex')
-  create_doc_from_composition(doc_path, composition)
-
-
-main('./src/testing/datagen/data')
+  composer.create_data_from_middleware('build/raw_img', 'build/effect')
+  print('Done')

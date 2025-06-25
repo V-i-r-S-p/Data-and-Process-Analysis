@@ -96,22 +96,29 @@ def tex_center(data: str) -> str:
   ''' % data
 
 def tex_math(data: str) -> str:
-  return r'''\(%s\)''' % data
+  return r'''$ %s $''' % data
 
 def tex_displaymath(data: str) -> str:
   return r'''\[%s\]''' % data
 
+def tex_font_mathsf(data: str) -> str:
+  return r'''\mathsf{%s}''' % data
+
 def data2tex(data: str) -> str:
   data_ = data
+
+  data_ = tex_font_mathsf(data_)
+  data_ = tex_math(data_)
+
   # data_ = tex_displaymath(data_)
   # data_ = tex_center(data_)
   # data_ = tex_document(data_)
-  
+
   return data_
 
 def all_data2tex(data: list[str]) -> list[str]:
   tex = []
   for data_ in data:
     tex.append(data2tex(data_))
-  
+
   return tex

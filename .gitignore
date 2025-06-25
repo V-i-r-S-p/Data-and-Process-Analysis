@@ -15,3 +15,7 @@ __pycache__
 *.aux
 *.pdf
 *.synctex.gz
+*.pth
+src/data/**
+**/.pytest_cache
+**/test_images/**

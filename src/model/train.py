@@ -5,7 +5,7 @@ from torch.nn.utils.rnn import pad_sequence
 from torch.optim import Adam
 import os
 from dataset import MathExprDataset
-from alphabet import VOCAB  
+from alphabet import VOCAB
 
 class CRNN(nn.Module):
     def __init__(self, num_classes):
@@ -18,25 +18,25 @@ class CRNN(nn.Module):
             nn.Conv2d(256, 512, 3, padding=1), nn.BatchNorm2d(512), nn.ReLU(),
             nn.Conv2d(512, 512, 3, padding=1), nn.BatchNorm2d(512), nn.ReLU(), nn.MaxPool2d((2, 1))
         )
-        
+
         self.lstm1 = nn.LSTM(input_size=512, hidden_size=256, bidirectional=True, batch_first=True)
         self.lstm2 = nn.LSTM(input_size=512, hidden_size=256, bidirectional=True, batch_first=True)
-        
+
         self.fc = nn.Linear(512, num_classes)
 
     def forward(self, x):
-        x = self.cnn(x)  
+        x = self.cnn(x)
         b, c, h, w = x.size()
 
         # Усредняем по высоте
-        x = torch.mean(x, dim=2)  
-        x = x.permute(0, 2, 1)    
+        x = torch.mean(x, dim=2)
+        x = x.permute(0, 2, 1)
 
         x, _ = self.lstm1(x)
         x, _ = self.lstm2(x)
 
-        x = self.fc(x)           
-        x = x.permute(1, 0, 2)   
+        x = self.fc(x)
+        x = x.permute(1, 0, 2)
         return x
 
 def collate_fn(batch):
@@ -70,7 +70,7 @@ def train():
         for imgs, labels, label_lens in dataloader:
             imgs, labels, label_lens = imgs.to(device), labels.to(device), label_lens.to(device)
             optimizer.zero_grad()
-            output = model(imgs)  
+            output = model(imgs)
             input_lens = torch.full((imgs.size(0),), output.size(0), dtype=torch.long).to(device)
             loss = criterion(output, labels, input_lens, label_lens)
             loss.backward()

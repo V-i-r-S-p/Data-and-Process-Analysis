@@ -1,42 +1,55 @@
 import re
 
 SPECIAL = [
-    '\\rceil', '\\gcd', '\\vdash', '\\subset', '\\arccos', '\\Gamma', '\\lnx', '\\liminf',
-    '\\lg', '\\Rightarrow', '\\nrightarrow', '\\sinu', '\\limsup', '\\kappa', '\\rfloor', '\\Pr',
-    '\\ni', '\\Downarrow', '\\eta', '\\dots', '\\downdownarrows', '\\sqrt', '\\triangle', '\\xi',
-    '\\nu', '\\nLeftrightarrow', '\\Omega', '\\tob', '\\tow', '\\hom', '\\cong', '\\%',
-    '\\tor', '\\epsilon', '\\mathbb{R}', '\\sinh', '\\cdotk', '\\lfloor', '\\ln', '\\varrho',
-    '\\Pi', '\\rightrightarrows', '\\Xi', '\\phi', '\\arctan', '\\tanv', '\\pi', '\\psi',
-    '\\rangle', '\\cdotx', '\\pm', '\\mathbb{Q}', '\\top', '\\tos', '\\tant', '\\Phi',
-    '\\in', '\\lng', '\\odot', '\\rightleftarrows', '\\cscu', '\\cfrac', '\\arcsin', '\\varpi',
-    '\\leftrightarrow', '\\tanp', '\\varepsilon', '\\oplus', '\\lambda', '\\thetac', '\\sinv', '\\tan',
-    '\\leftarrow', '\\thetap', '\\right', '\\cosu', '\\lnp', '\\rho', '\\lnz', '\\leftleftarrows',
-    '\\neg', '\\lim', '\\sinw', '\\alpha', '\\lny', '\\toy', '\\cup', '\\varphi',
-    '\\thetak', '\\updownarrow', '\\nparallel', '\\siny', '\\tans', '\\det', '\\toe', '\\lnw',
-    '\\toz', '\\Leftarrow', '\\vee', '\\varnothing', '\\{', '\\lna', '\\exists', '\\models',
-    '\\subseteq', '\\&', '\\left', '\\ton', '\\theta', '\\cdotv', '\\gamma', '\\omicron',
-    '\\sim', '\\le', '\\tog', '\\arg', '\\lnb', '\\breve', '\\ker', '\\sigma',
-    '\\leftrightarrows', '\\nLeftarrow', '\\infty', '\\mathbb{Z}', '\\Leftrightarrow', '\\sinx', '\\thetae', '\\supset',
-    '\\lnv', '\\notin', '\\lnu', '\\sinr', '\\omega', '\\vdots', '\\ne', '\\times',
-    '\\lnr', '\\thetag', '\\angle', '\\sing', '\\cdotz', '\\cdot', '\\Upsilon', '\\digamma',
-    '\\toh', '\\Sigma', '\\tok', '\\Theta', '\\varsigma', '\\wedge', '\\propto', '\\prod',
-    '\\sum', '\\$', '\\tot', '\\nleftrightarrow', '\\cdota', '\\cos', '\\coth', '\\dim',
-    '\\csck', '\\zeta', '\\upuparrows', '\\cdoth', '\\log', '\\lnc', '\\Updownarrow', '\\hat',
-    '\\tank', '\\cscg', '\\vartheta', '\\sec', '\\mu', '\\lns', '\\delta', '\\ast',
-    '\\setminus', '\\perp', '\\int', '\\lnh', '\\toa', '\\gg', '\\secx', '\\nleftarrow',
-    '\\cap', '\\|', '\\tov', '\\otimes', '\\to', '\\cot', '\\beta', '\\exp',
-    '\\lnk', '\\ominus', '\\dot', '\\Uparrow', '\\equiv', '\\chi', '\\parallel', '\\mathbb{C}',
-    '\\upsilon', '\\langle', '\\ddot', '\\cosv', '\\Delta', '\\ddots', '\\csc', '\\rightarrow',
-    '\\cdotb', '\\degree', '\\mathbb{N}', '\\Lambda', '\\sinz', '\\bar', '\\iota', '\\vec',
-    '\\cosh', '\\sint', '\\tanh', '\\ll', '\\#', '\\toc', '\\varkappa', '\\uparrow',
-    '\\forall', '\\ge', '\\approx', '\\mid', '\\tau', '\\div', '\\frac', '\\cdotc',
-    '\\cdots', '\\downarrow', '\\lceil', '\\lnt', '\\tilde', '\\supseteq', '\\cscx', '\\mp',
-    '\\sin', '\\deg', '\\Psi', '\\nRightarrow', '\\}', '\\thetav', '\\tou', '\\overline'
+    # Цифры и латиница
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+    'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+    'w', 'x', 'y', 'z',
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+    'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+    'W', 'X', 'Y', 'Z',
+
+    # Операторы
+    '+', '-', '*', '/', '=', '<', '>', '!', '^', '_',
+    '.', ',', ':', ';', ' ',
+
+    # Греческие буквы
+    '\\alpha', '\\beta', '\\gamma', '\\delta', '\\epsilon',
+    '\\zeta', '\\eta', '\\theta', '\\iota', '\\kappa',
+    '\\lambda', '\\mu', '\\nu', '\\xi', '\\omicron', '\\pi',
+    '\\rho', '\\sigma', '\\tau', '\\upsilon', '\\phi',
+    '\\chi', '\\psi', '\\omega',
+
+    '\\Gamma', '\\Delta', '\\Theta', '\\Lambda', '\\Xi', '\\Pi',
+    '\\Sigma', '\\Upsilon', '\\Phi', '\\Psi', '\\Omega',
+
+    # Математические функции
+    '\\sin', '\\cos', '\\tan', '\\cot', '\\sec', '\\csc',
+    '\\log', '\\ln', '\\exp',
+
+    # Спецоператоры
+    '\\sum', '\\int', '\\prod', '\\lim', '\\infty',
+    '\\partial', '\\nabla', '\\cdot', '\\times', '\\div',
+    '\\sqrt', '\\frac',
+
+    # Отношения
+    '\\leq', '\\geq', '\\neq', '\\approx', '\\equiv',
+    '\\sim', '\\propto',
+
+    # Множества и логика
+    '\\in', '\\notin', '\\subset', '\\subseteq',
+    '\\supset', '\\supseteq', '\\cup', '\\cap', '\\setminus',
+    '\\forall', '\\exists', '\\neg', '\\wedge', '\\vee',
+    # Скобки
+    '(', ')', '[', ']', '{', '}',
+
+    # Модификаторы
+    '\\left', '\\right', '|', '\\langle', '\\rangle'
 ]
 
-SYMBOLS = list("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-*/=^{}_()[] ")
 
-VOCAB = SPECIAL + SYMBOLS + ['<PAD>', '<BOS>', '<EOS>', '<UNK>']
+VOCAB = SPECIAL + ['<PAD>', '<BOS>', '<EOS>', '<UNK>']
 
 token2idx = {t: i for i, t in enumerate(VOCAB)}
 idx2token = {i: t for t, i in token2idx.items()}

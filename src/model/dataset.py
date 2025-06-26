@@ -11,17 +11,19 @@ class MathExprDataset(Dataset):
         print(f"Reading from:\n  Images: {img_dir}\n  Labels: {lbl_dir}")
 
         for fname in os.listdir(img_dir):
-            if fname.lower().endswith(".jpg") or fname.lower().endswith(".png"):
+            if fname.lower().endswith(".jpg") or fname.lower().endswith(".png") or fname.lower().endswith(".bmp"):
                 img_path = os.path.join(img_dir, fname)
                 lbl_path = os.path.join(lbl_dir, fname.replace(".jpg", ".txt"))
                 if fname.lower().endswith(".png"):
                     lbl_path = os.path.join(lbl_dir, fname.replace(".png", ".txt"))
+                if fname.lower().endswith(".bmp"):
+                    lbl_path = os.path.join(lbl_dir, fname.replace(".bmp", ".txt"))
                 if os.path.exists(lbl_path):
                     self.samples.append((img_path, lbl_path))
                 else:
-                    print(f"⚠️  Label missing for {fname}")
+                    print(f"Label missing for {fname}")
 
-        print(f"✅ Found {len(self.samples)} image-label pairs.")
+        print(f"Found {len(self.samples)} pairs.")
 
         self.transform = transform or transforms.Compose([
             transforms.Grayscale(),

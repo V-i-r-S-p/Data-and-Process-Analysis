@@ -12,7 +12,7 @@ SPECIAL = [
 
     # Операторы
     '+', '-', '*', '/', '=', '<', '>', '!', '^', '_',
-    '.', ',', ':', ';', ' ',
+    '.', ',', ':', ';',
 
     # Греческие буквы
     '\\alpha', '\\beta', '\\gamma', '\\delta', '\\epsilon',
@@ -41,15 +41,14 @@ SPECIAL = [
     '\\in', '\\notin', '\\subset', '\\subseteq',
     '\\supset', '\\supseteq', '\\cup', '\\cap', '\\setminus',
     '\\forall', '\\exists', '\\neg', '\\wedge', '\\vee',
-    # Скобки
-    '(', ')', '[', ']', '{', '}',
 
-    # Модификаторы
+    # Скобки и модификаторы
     '\\left', '\\right', '|', '\\langle', '\\rangle'
 ]
 
+SYMBOLS = list("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-*/=^_()[] ,.")
 
-VOCAB = SPECIAL + ['<PAD>', '<BOS>', '<EOS>', '<UNK>']
+VOCAB = SPECIAL + SYMBOLS + ['<PAD>', '<BOS>', '<EOS>', '<UNK>']
 
 token2idx = {t: i for i, t in enumerate(VOCAB)}
 idx2token = {i: t for t, i in token2idx.items()}
